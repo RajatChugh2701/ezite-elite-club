@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* Design tokens. Fonts: Inter + Playfair Display (both SIL OFL, Google Fonts). */
+@theme {
+  --color-bg: #0b0f0d;
+  --color-bg2: #121815;
+  --color-surface: #191f1b;
+  --color-raised: #1f2621;
+  --color-line: #2a312c;
+  --color-line2: #343c36;
+  --color-gold: #c8a65d;
+  --color-gold-soft: #e1ca91;
+  --color-gold-deep: #9c7f3f;
+  --color-ivory: #f5f1e8;
+  --color-mute: #aaafa8;
+  --color-dim: #8b9189;
+  --color-sage: #758a73;
+  --color-sage-soft: #a3b8a0;
+  --color-ok: #8fc28a;
+  --color-warn: #e0bb6a;
+  --color-bad: #e5917f;
+  --color-info: #93b6cc;
+  --color-on-gold: #0b0f0d;
+  --color-scrim: rgb(0 0 0 / 0.7);
+  --color-map: #0f1411;
+  --color-map-grid: #1b221d;
+  --color-map-road: #202923;
+  --color-map-track: #2f3a32;
+
+  --font-sans: Inter, system-ui, -apple-system, Roboto, "Noto Sans", sans-serif;
+  --font-serif: "Playfair Display", "Noto Serif", serif;
+
+  --animate-fade-up: fade-up 0.35s ease-out both;
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Light theme: same tokens, warm ivory palette. Gold is deepened so accent text stays AA on white. */
+:root[data-theme='light'] {
+  --color-bg: #f7f4ee;
+  --color-bg2: #efebe2;
+  --color-surface: #ffffff;
+  --color-raised: #f2eee6;
+  --color-line: #e3ddd1;
+  --color-line2: #cfc7b8;
+  --color-gold: #8e6e2a;
+  --color-gold-soft: #6f5520;
+  --color-gold-deep: #5c4519;
+  --color-ivory: #1b201c;
+  --color-mute: #545a53;
+  --color-dim: #6b716a;
+  --color-sage: #5e745c;
+  --color-sage-soft: #4a6347;
+  --color-ok: #2e7d3a;
+  --color-warn: #94650f;
+  --color-bad: #b03e2b;
+  --color-info: #2b6383;
+  --color-on-gold: #ffffff;
+  --color-scrim: rgb(27 32 28 / 0.35);
+  --color-map: #ece7dc;
+  --color-map-grid: #e0d9cb;
+  --color-map-road: #d6cebf;
+  --color-map-track: #c4bba9;
+  color-scheme: light;
+}
+
+/* Theme switch: circular reveal via View Transitions (see lib/theme.ts); colour fade fallback. */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+.theme-fade, .theme-fade *, .theme-fade *::before, .theme-fade *::after {
+  transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, fill 0.45s ease, stroke 0.45s ease !important;
+}
+
+@layer base {
+  html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+  html[data-theme='light'] { color-scheme: light; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: color-mix(in srgb, var(--color-gold) 35%, transparent); }
+  :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; border-radius: 6px; }
+  input, select, textarea, button { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  h1, h2, h3 { text-wrap: balance; }
+  input[type='date']::-webkit-calendar-picker-indicator { filter: invert(0.8); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--color-line2); border-radius: 10px; border: 2px solid var(--color-bg); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+}
+
+@layer components {
+  .serif { font-family: var(--font-serif); letter-spacing: -0.01em; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-gold); font-weight: 500; }
+  .hairline { border-color: var(--color-line); }
+  .link { color: var(--color-gold-soft); text-underline-offset: 3px; }
+  .link:hover { text-decoration: underline; }
+}
